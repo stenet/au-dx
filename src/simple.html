@@ -1,0 +1,40 @@
+<template>
+  <require from="./simple.less"></require>
+
+  <h2>Simple Widgets</h2>
+
+  <div class="simple-widgets">
+    <div>TextBox</div>
+    <div>
+      <dx name="dxTextBox" options.bind="textBoxOptions"></dx>
+    </div>
+    <div>
+      ${textBoxValue}
+    </div>
+    <div>
+      <dx name="dxButton" options.bind="textBoxResetButtonOptions"></dx>
+    </div>
+
+    <div>DateBox</div>
+    <div>
+      <dx name="dxDateBox" options.bind="dateBoxOptions"></dx>
+    </div>
+    <div>
+      ${dateBoxValue}
+    </div>
+    <div>
+      <dx name="dxButton" options.bind="dateBoxResetButtonOptions"></dx>
+    </div>
+
+    <div>NumberBox</div>
+    <div>
+      <dx name="dxNumberBox" options.bind="numberBoxOptions"></dx>
+    </div>
+    <div>
+      ${numberBoxValue}
+    </div>
+    <div>
+      <dx name="dxButton" options.bind="numberBoxResetButtonOptions"></dx>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,18 @@
+<template>
+  <require from="./popup.less"></require>
+
+  <h2>Popup</h2>
+
+  <dx name="dxButton" options.bind="openPopupButtonOptions"></dx>
+  <dx name="dxCheckBox" options.bind="toggleVisibilityCheckBoxOptions"></dx>
+  <dx name="dxPopup" options.bind="popupOptions" view-model.ref="popup">
+    <dx-template name="contentTemplate">
+      <div>
+          I'm the content of the Popup having another dx-widget
+      </div>
+      <div>
+        <dx name="dxButton" options.bind="closePopupButtonOptions"></dx>
+      </div>
+    </dx-template>
+  </dx>
+</template>
