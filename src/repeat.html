@@ -1,0 +1,17 @@
+<template>
+  <require from="./repeat.less"></require>
+
+  <h2>Repeat</h2>
+
+  <div repeat.for="item of data" class="repeat-item">
+    <div>
+      <dx name="dxTextBox" options.bind="textBoxOptions"></dx>
+    </div>
+    <div>
+      ${item.name}
+    </div>
+    <div>
+      <dx name="dxButton" options.bind="resetButtonOptions"></dx>
+    </div>
+  </div>
+</template>
