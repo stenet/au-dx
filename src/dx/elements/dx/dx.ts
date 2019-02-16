@@ -25,7 +25,7 @@ export class Dx implements IDxBase {
 
   @bindable name: string;
   @bindable options: IWidgetOptions;
-  @bindable validator: DevExpress.ui.dxValidatorOptions;
+  @bindable validatorOptions: DevExpress.ui.dxValidatorOptions;
 
   instance: DevExpress.DOMComponent;
   validatorInstance: DevExpress.ui.dxValidator;
@@ -127,7 +127,7 @@ export class Dx implements IDxBase {
 
     this.name = args.name;
     this.options = args.options;
-    this.validator = args.validator;
+    this.validatorOptions = args.validator;
   }
   private prepareTemplates() {
     this._templateInfo = new DxTemplateInfo(
@@ -208,11 +208,11 @@ export class Dx implements IDxBase {
     }
   }
   private addValidatorToWidget() {
-    if (this.validator) {
+    if (this.validatorOptions) {
       this.validatorInstance = this.dxWidgetService.createInstance(
         "dxValidator", 
         this._widgetElement, 
-        this.validator);
+        this.validatorOptions);
     } else if (this.options["validators"]) {
       this.validatorInstance = this.dxWidgetService.createInstance(
         "dxValidator", 
