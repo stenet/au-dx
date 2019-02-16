@@ -1,0 +1,12 @@
+<template>
+  <require from="./validator.less"></require>
+
+  <h2>Validation</h2>
+
+  <div>
+    Text must have min 4, max 10 symbols
+  </div>
+  <div>
+    <dx name="dxTextBox" options.bind="textBoxOptions" validator.bind="validatorOptions" view-model.ref="textBox"></dx>
+  </div>
+</template>
