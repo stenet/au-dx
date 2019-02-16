@@ -9,9 +9,9 @@ export class DxTemplateInfo {
     private element: Element
   ) {}
 
-  templateDic: TemplateDic = {};
+  templateDic: ITemplateDic = {};
 
-  extractTemplates() {
+  extractTemplates(): void {
     const children = Array.from(this.element.children)
       .filter(child => child.tagName == "DX-TEMPLATE");
 
@@ -22,7 +22,7 @@ export class DxTemplateInfo {
     }
   }
 
-  private addTemplate(element: Element) {    
+  private addTemplate(element: Element): void {    
     const name = element.getAttribute("name");
     if (!name) {
       return;
@@ -82,7 +82,7 @@ export class DxTemplateInfo {
 }
 
 type Render = (renderData: any) => Element;
-type TemplateDic = {
+interface ITemplateDic {
   [key: string]: {
     render: Render
   }

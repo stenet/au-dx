@@ -6,7 +6,7 @@ import * as Widgets from "../dx-modules";
 export class DxWidgetService {
   constructor() {}
 
-  createInstance(widget: string, element: Element, options: any): any {
+  createInstance<T = DevExpress.DOMComponent>(widget: string, element: Element, options: any): T {
     if (!element) {
       throw new Error("No element specified");
     }
@@ -16,7 +16,7 @@ export class DxWidgetService {
   exists(widget: string): boolean {
     return !!Widgets.default[widget];
   }
-  getInstance(widget: string, element: Element): any {
+  getInstance<T = DevExpress.DOMComponent>(widget: string, element: Element): T {
     if (element == null) {
       return null;
     }

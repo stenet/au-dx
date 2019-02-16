@@ -24,10 +24,10 @@ export class Dx implements IDxBase {
   ) {}
 
   @bindable name: string;
-  @bindable options: WidgetOptions;
-  @bindable validator: any;
+  @bindable options: IWidgetOptions;
+  @bindable validator: DevExpress.ui.dxValidatorOptions;
 
-  instance: any;
+  instance: DevExpress.DOMComponent;
   validatorInstance: DevExpress.ui.dxValidator;
 
   created(owningView: any) {
@@ -67,7 +67,7 @@ export class Dx implements IDxBase {
 
     this.setOptions(options);
   }
-  setOptions(options: Options): void {
+  setOptions(options: IOptions): void {
     let hasValueProperty = false;
 
     for (let key of Object.getOwnPropertyNames(options)) {
@@ -174,14 +174,14 @@ export class Dx implements IDxBase {
       initializeOptions
     );
 
-    this.addValidatorsToWidget();
+    this.addValidatorToWidget();
     this.registerBindings();
     this.registerOptionChanged();
 
     this.publishAttachedEvent(initializeOptions);
   }
   private createInitializeOptions() {
-    const initializeOptions: InitializeOptions = Object.assign({}, this.options || {});
+    const initializeOptions: IInitializeOptions = Object.assign({}, this.options || {});
 
     initializeOptions.modelByElement = () => this._scope;
     initializeOptions.integrationOptions = {
@@ -207,7 +207,7 @@ export class Dx implements IDxBase {
       this._widgetElement.appendChild(this.element.children.item(0));
     }
   }
-  private addValidatorsToWidget() {
+  private addValidatorToWidget() {
     if (this.validator) {
       this.validatorInstance = this.dxWidgetService.createInstance(
         "dxValidator", 
@@ -373,21 +373,31 @@ export class Dx implements IDxBase {
   }
 }
 
-type InitializeOptions = {
-  modelByElement?: (element: Element) => Scope;
+export interface IDxBase {
+  setOption(propertyName: string, value: any): void;
+  setOptions: (options: IOptions) => void;
+
+  resetValidation(): void;
+  validate(): void;
+}
+export interface IDx<T extends DevExpress.DOMComponent> extends IDxBase {
+  instance: T;
+}
+interface IInitializeOptions {
+  modelByElement?(element: Element): Scope;
   integrationOptions?: {
     templates: {
       [key: string]: {
         render: (renderData: any) => Element
       }
     }
-  }
+  };
 }
-type Options = {
+interface IOptions {
   [key: string]: any;
 }
-type WidgetOptions = {
-  onValueChangedByUser?: (args: IOnValueChangedByUserArguments) => void;
+interface IWidgetOptions {
+  onValueChangedByUser?(args: IOnValueChangedByUserArguments): void;
   bindingOptions: {
     [key: string]: string
   }
@@ -396,14 +406,4 @@ interface IOnValueChangedByUserArguments {
   sender: Dx;
   model: Scope;
   value: any;
-}
-export interface IDxBase {
-  setOption(propertyName: string, value: any): void;
-  setOptions: (options: Options) => void;
-
-  resetValidation(): void;
-  validate(): void;
-}
-export interface IDx<T> extends IDxBase {
-  instance: T;
 }
