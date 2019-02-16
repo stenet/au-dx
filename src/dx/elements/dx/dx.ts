@@ -6,7 +6,7 @@ import { DxWidgetService } from "dx/services/dx-widget-service";
 @autoinject
 @noView()
 @processContent(false)
-export class Dx {
+export class Dx implements IDxBase {
   private _scope: Scope;
   private _templateInfo: DxTemplateInfo;
   private _owningView: any; //TODO replace any
@@ -24,11 +24,11 @@ export class Dx {
   ) {}
 
   @bindable name: string;
-  @bindable options: Options;
+  @bindable options: WidgetOptions;
   @bindable validator: any;
 
   instance: any;
-  validatorInstance: any;
+  validatorInstance: DevExpress.ui.dxValidator;
 
   created(owningView: any) {
     this._owningView = owningView;
@@ -61,7 +61,13 @@ export class Dx {
     this._templateInfo = null;
   }
 
-  setOptions(options: any) {
+  setOption(propertyName: string, value: any): void {
+    const options = {};
+    options[propertyName] = value;
+
+    this.setOptions(options);
+  }
+  setOptions(options: Options): void {
     let hasValueProperty = false;
 
     for (let key of Object.getOwnPropertyNames(options)) {
@@ -94,14 +100,20 @@ export class Dx {
       }
     }
   }
-  resetValidation() {
+
+  resetValidation(): void {
     if (this.instance.option("isValid") !== false) {
       return;
     }
 
-    this.setOptions({
-      isValid: true
-    });
+    this.setOption("isValid", true);
+  }
+  validate(): void {
+    if (!this.validatorInstance) {
+      return;
+    }
+
+    this.validatorInstance.validate();
   }
 
   private validateActivateArguments(args) {
@@ -372,6 +384,9 @@ type InitializeOptions = {
   }
 }
 type Options = {
+  [key: string]: any;
+}
+type WidgetOptions = {
   onValueChangedByUser?: (args: IOnValueChangedByUserArguments) => void;
   bindingOptions: {
     [key: string]: string
@@ -382,7 +397,13 @@ interface IOnValueChangedByUserArguments {
   model: Scope;
   value: any;
 }
-export interface IDx<T> {
-  setOptions: (options: any) => void;
+export interface IDxBase {
+  setOption(propertyName: string, value: any): void;
+  setOptions: (options: Options) => void;
+
+  resetValidation(): void;
+  validate(): void;
+}
+export interface IDx<T> extends IDxBase {
   instance: T;
 }
