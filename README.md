@@ -7,3 +7,5 @@ git clone https://github.com/stenet/au-dx
 npm install
 au run --watch
 ```
+
+Implementation no needs JQuery anymore. Usage is similar how it was with AngularV1.
